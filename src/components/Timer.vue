@@ -1,12 +1,12 @@
 <template>
-  <div class="hello" @keyup.space="startTimer" @keydown.space="stopTimer">
+  <div>
     <h1>Cubing sessions timer</h1>
     <h1>{{ timeString }}</h1>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { Stopwatch } from "ts-stopwatch";
 import moment from "moment";
 
@@ -56,6 +56,7 @@ export default class Timer extends Vue {
       console.log("timer stopped at " + this.time);
       clearInterval(this.interval);
       setTimeout(() => (this.timerIsRunning = false), 100);
+      this.$emit("time-available", this.time);
     }
   }
 
@@ -67,18 +68,8 @@ export default class Timer extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
+
+
+
 </style>
