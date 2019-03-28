@@ -2,14 +2,13 @@
   <div class="hello" @keyup.space="startTimer" @keydown.space="stopTimer">
     <h1>Cubing sessions timer</h1>
     <h1>{{ timeString }}</h1>
-    <button name="b">Timer</button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Stopwatch } from "ts-stopwatch";
-import moment from 'moment';
+import moment from "moment";
 
 @Component
 export default class Timer extends Vue {
@@ -19,8 +18,14 @@ export default class Timer extends Vue {
   }
 
   get timeString() {
-    const d = new Date(this.time);
-    return moment(d).format('mm:ss:SSS');
+    const date = new Date(this.time);
+    if (this.timerIsRunning) {
+      return moment(date).format("ss:S");
+    }
+    if (date.getMinutes() > 0) {
+      return moment(date).format("mm:ss:SSS");
+    }
+    return moment(date).format("ss:SSS");
   }
 
   protected stopWatch: Stopwatch = new Stopwatch();
@@ -30,7 +35,7 @@ export default class Timer extends Vue {
 
   onKeyUp(): void {
     if (!this.timerIsRunning) {
-      return
+      return;
     }
 
     this.startTimer();
