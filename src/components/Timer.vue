@@ -20,7 +20,7 @@ export default class Timer extends Vue {
 
   get timeString() {
     const d = new Date(this.time);
-    return moment(d).format('MM:SSS');
+    return moment(d).format('mm:ss:SSS');
   }
 
   protected stopWatch: Stopwatch = new Stopwatch();
