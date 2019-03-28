@@ -23,8 +23,8 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:  
     publishLocation: FilePath
-    pathtoPublish: $(Build.ArtifactStagingDirectory)dist
-    artifactName: MyBuildOutputs
+    pathtoPublish: $(Build.ArtifactStagingDirectory)/dist
+    artifactName: dist
     TargetPath: dist
 
  
