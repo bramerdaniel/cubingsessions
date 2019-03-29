@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Cubing sessions Timer...</h1>
+    <h1>Cubing sessions timer</h1>
     <h1>{{ timeString }}</h1>
   </div>
 </template>
