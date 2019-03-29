@@ -1,19 +1,19 @@
 <template>
   <div class="home">
     <h1>Cubing sessions timer</h1>
-    <Timer @time-available="onTimeAvailable"/>
+    <timer-component @time-available="onTimeAvailable"/>
     <SessionComponent class="session" :times="times"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Timer from "@/components/Timer.vue";
+import TimerComponent from "@/components/TimerComponent.vue";
 import SessionComponent from "@/components/SessionComponent.vue";
 
 @Component({
   components: {
-    Timer,
+    TimerComponent,
     SessionComponent
   }
 })
