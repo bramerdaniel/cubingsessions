@@ -7,6 +7,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { Stopwatch } from 'ts-stopwatch';
+import { ScrambleTime } from '../ScrambleTime';
 import moment from 'moment';
 
 const PreparingTimeput: number = 500;
@@ -62,7 +63,6 @@ export default class TimerComponent extends Vue {
   public onKeyUp(event: KeyboardEvent): void {
     if (event.keyCode !== space || event.repeat) { return; }
 
-    console.log('on space key up');
     clearTimeout(this.completePreparingInterval);
 
     if (this.timerState === TimerStates.PreparingCompleted) {
@@ -77,7 +77,6 @@ export default class TimerComponent extends Vue {
   public onKeyDown(event: KeyboardEvent): void {
     if (event.keyCode !== space || event.repeat) { return; }
 
-    console.log('on space key down');
     if (this.timerState === TimerStates.Runing) {
       this.stopTimer();
     } else if (this.timerState === TimerStates.Ready) {
@@ -91,7 +90,6 @@ export default class TimerComponent extends Vue {
   }
 
   public setState(state: TimerStates): void {
-    console.log(this.timerState + ' => ' + state);
     this.timerState = state;
   }
 
@@ -111,7 +109,7 @@ export default class TimerComponent extends Vue {
       this.time = this.stopWatch.getTime();
       this.stopWatch.reset();
       clearInterval(this.interval);
-      this.$emit('time-available', this.time);
+      this.$emit('time-available', new ScrambleTime(this.time));
       this.setState(TimerStates.Stopped);
     }
   }

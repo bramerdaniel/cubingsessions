@@ -7,11 +7,11 @@
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Open Temporary Drawer</v-list-tile-title>
+            <v-list-tile-title>Here are some settings</v-list-tile-title>
           </v-list-tile-content>
-        </v-list-tile>
+        </v-list-tile> 
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> 
 
     <v-navigation-drawer v-model="drawer" fixed app clipped>
       <v-list dense>
@@ -83,20 +83,20 @@
 
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import TimerComponent from '@/components/TimerComponent.vue';
-import SessionComponent from '@/components/SessionComponent.vue';
-import Vuetify from 'vuetify/types';
+import { Component, Vue, Prop } from "vue-property-decorator";
+import TimerComponent from "@/components/TimerComponent.vue";
+import SessionComponent from "@/components/SessionComponent.vue";
+import Vuetify from "vuetify/types";
+import { ScrambleTime } from "@/ScrambleTime";
 
 @Component({
   components: {
     TimerComponent,
-    SessionComponent,
-  },
+    SessionComponent
+  }
 })
-
 export default class App extends Vue {
-  public times: number[] = [];
+  public times: ScrambleTime[] = [];
   public drawer: boolean = true;
   public drawerRight: boolean = false;
   public right: boolean = false;
@@ -105,12 +105,10 @@ export default class App extends Vue {
   // @Prop({ default: "" }) source!: string;
 
   public clearTimes() {
-    console.log('' + typeof this.drawerRight );
     this.times.splice(0);
   }
 
-  public onTimeAvailable(data: number): void {
-    console.log('Got time ' + data);
+  public onTimeAvailable(data: ScrambleTime): void {
     this.times.push(data);
   }
 }
