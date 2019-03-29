@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <h1>Cubing sessions timer</h1>
     <Timer @time-available="onTimeAvailable"/>
     <SessionComponent class="session" :times="times"/>
   </div>

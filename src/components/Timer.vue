@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Cubing sessions timer</h1>
     <h1>{{ timeString }}</h1>
   </div>
 </template>
