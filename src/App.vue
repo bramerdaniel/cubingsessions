@@ -1,31 +1,135 @@
 <template>
-  <div id="app" v-on:keyup.down="window.alert('bam')">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawerRight" fixed right clipped app>
+      <v-list dense>
+        <v-list-tile @click.stop="right = !right">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Open Temporary Drawer</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-navigation-drawer v-model="drawer" fixed app clipped>
+      <v-list dense>
+        <v-list-tile @click.stop="left = !left">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Times ans statistic</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click.stop="clearTimes">
+          <v-list-tile-action>
+            <v-icon>clear</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Clear times</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <session-component class="session" :times="times"/>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-toolbar color="blue-grey" dark fixed app clipped-right>
+      <!--v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon-->
+      <v-toolbar-title>Cubing sessions</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"/>
+    </v-toolbar>
+
+    <v-navigation-drawer v-model="left" temporary fixed/>
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+          <v-flex shrink>
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <timer-component @time-available="onTimeAvailable"/>
+              </template>
+              <span>Source</span>
+            </v-tooltip>
+            <v-tooltip right>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  large
+                  href="https://codepen.io/johnjleider/pen/KQrPKJ"
+                  target="_blank"
+                  v-on="on"
+                >
+                  <v-icon large>mdi-codepen</v-icon>
+                </v-btn>
+              </template>
+              <span>Codepen</span>
+            </v-tooltip>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+    <v-navigation-drawer v-model="right" right temporary fixed></v-navigation-drawer>
+    <v-footer color="blue-grey" class="white--text" app>
+      <span>cubing sessions</span>
+      <v-spacer></v-spacer>
+      <span>&copy; 2019</span>
+    </v-footer>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
+
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import TimerComponent from '@/components/TimerComponent.vue';
+import SessionComponent from '@/components/SessionComponent.vue';
+import Vuetify from 'vuetify/types';
+
+@Component({
+  components: {
+    TimerComponent,
+    SessionComponent,
+  },
+})
+
+export default class App extends Vue {
+  public times: number[] = [];
+  public drawer: boolean = true;
+  public drawerRight: boolean = false;
+  public right: boolean = false;
+  public left: boolean = false;
+
+  // @Prop({ default: "" }) source!: string;
+
+  public clearTimes() {
+    console.log('' + typeof this.drawerRight );
+    this.times.splice(0);
+  }
+
+  public onTimeAvailable(data: number): void {
+    console.log('Got time ' + data);
+    this.times.push(data);
+  }
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+// export default {
+//   name: 'App',
+//   components: {
+//     HelloWorld,
+//     TimerComponent,
+//     SessionComponent
+//   },
+//   data:() => ({
+//       drawer: null,
+//       drawerRight: null,
+//       right: false,
+//       left: false
+//     }),
+//       props: {
+//       source: String
+//     }
+// }
+</script>

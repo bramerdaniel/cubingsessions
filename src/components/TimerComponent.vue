@@ -5,35 +5,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from "vue-property-decorator";
-import { Stopwatch } from "ts-stopwatch";
-import moment from "moment";
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
+import { Stopwatch } from 'ts-stopwatch';
+import moment from 'moment';
 
 const PreparingTimeput: number = 500;
 
 enum TimerStates {
-  Ready = "Ready",
-  Preparing = "Preparing",
-  PreparingCompleted = "PreparingCompleted",
-  Runing = "Runing",
-  Stopped = "Stopped"
+  Ready = 'Ready',
+  Preparing = 'Preparing',
+  PreparingCompleted = 'PreparingCompleted',
+  Runing = 'Runing',
+  Stopped = 'Stopped',
 }
 
 const space: number = 32;
 
 @Component
 export default class TimerComponent extends Vue {
-  created() {
-    window.addEventListener("keyup", this.onKeyUp);
-    window.addEventListener("keydown", this.onKeyDown);
-  }
 
   get timeFormat() {
     const date = new Date(this.time);
-    const minFormat = date.getMinutes() > 0 ? "m:" : "";
+    const minFormat = date.getMinutes() > 0 ? 'm:' : '';
     return minFormat + this.timerState === TimerStates.Runing
-      ? "s.S"
-      : "ss.SSS";
+      ? 's.S'
+      : 'ss.SSS';
   }
 
   get timeString() {
@@ -43,13 +39,13 @@ export default class TimerComponent extends Vue {
   get getClass() {
     switch (this.timerState) {
       case TimerStates.Preparing:
-        return "preparing";
+        return 'preparing';
       case TimerStates.PreparingCompleted:
-        return "preparingCompleted";
+        return 'preparingCompleted';
       case TimerStates.Runing:
-        return "running";
+        return 'running';
       default:
-        return "";
+        return '';
     }
   }
 
@@ -58,11 +54,15 @@ export default class TimerComponent extends Vue {
   protected interval: number = 0;
   protected completePreparingInterval: number = 0;
   protected timerState: TimerStates = TimerStates.Ready;
+  public created() {
+    window.addEventListener('keyup', this.onKeyUp);
+    window.addEventListener('keydown', this.onKeyDown);
+  }
 
-  onKeyUp(event: KeyboardEvent): void {
-    if (event.keyCode !== space || event.repeat) return;
+  public onKeyUp(event: KeyboardEvent): void {
+    if (event.keyCode !== space || event.repeat) { return; }
 
-    console.log("on space key up");
+    console.log('on space key up');
     clearTimeout(this.completePreparingInterval);
 
     if (this.timerState === TimerStates.PreparingCompleted) {
@@ -74,10 +74,10 @@ export default class TimerComponent extends Vue {
     }
   }
 
-  onKeyDown(event: KeyboardEvent): void {
-    if (event.keyCode !== space || event.repeat) return;
+  public onKeyDown(event: KeyboardEvent): void {
+    if (event.keyCode !== space || event.repeat) { return; }
 
-    console.log("on space key down");
+    console.log('on space key down');
     if (this.timerState === TimerStates.Runing) {
       this.stopTimer();
     } else if (this.timerState === TimerStates.Ready) {
@@ -85,38 +85,38 @@ export default class TimerComponent extends Vue {
       this.setState(TimerStates.Preparing);
       this.completePreparingInterval = setTimeout(
         this.completePreparing,
-        PreparingTimeput
+        PreparingTimeput,
       );
     }
   }
 
-  setState(state: TimerStates): void {
-    console.log(this.timerState + " => " + state);
+  public setState(state: TimerStates): void {
+    console.log(this.timerState + ' => ' + state);
     this.timerState = state;
   }
 
-  completePreparing(): void {
+  public completePreparing(): void {
     this.setState(TimerStates.PreparingCompleted);
   }
 
-  startTimer(): void {
+  public startTimer(): void {
     this.setState(TimerStates.Runing);
     this.stopWatch.start();
     this.interval = setInterval(this.updateTime, 100);
   }
 
-  stopTimer(): void {
+  public stopTimer(): void {
     if (this.timerState === TimerStates.Runing) {
       this.stopWatch.stop();
       this.time = this.stopWatch.getTime();
       this.stopWatch.reset();
       clearInterval(this.interval);
-      this.$emit("time-available", this.time);
+      this.$emit('time-available', this.time);
       this.setState(TimerStates.Stopped);
     }
   }
 
-  updateTime(): void {
+  public updateTime(): void {
     this.time = this.stopWatch.getTime();
   }
 }
@@ -125,14 +125,17 @@ export default class TimerComponent extends Vue {
 <style scoped>
 .preparing {
   color: red;
-  font-size: 210%;
+  font-size: 410%;
 }
 .preparingCompleted {
   color: forestgreen;
-  font-size: 210%;
+  font-size: 410%;
 }
 .running {
   color: black;
+  font-size: 420%;
+}
+.default {
   font-size: 400%;
 }
 </style>

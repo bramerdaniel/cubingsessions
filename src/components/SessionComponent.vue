@@ -1,46 +1,45 @@
 <template>
   <div>
-    <!-- <h1>Session times</h1> -->
-    <table class="table">
-      <thead>
-        <tr>
-          <td style="width: 30%">Number</td>
-          <td style="width: 70%">Time</td>
-        </tr>
-      </thead>
-      <tbody>
-        <template v-if="times.length === 0">
-          <tr>
-            <td class="empty" colspan="3">No times to display</td>
-          </tr>
-        </template>
-        <template v-else>
-          <tr v-for="(time, index) in times" :key="time">
-            <td>{{ index + 1 }}</td>
-            <td>{{ ToTimeString(time) }}</td>
-          </tr>
-        </template>
-      </tbody>
-    </table>
-    <a @click="times.splice(0, times.length)" href="" tabIndex="-1">
-      Clear times
-    </a>
+    <v-data-table :headers="headers" :items="times" hide-actions>
+      <template v-slot:items="props" style="color: red" >
+        <td class="text-xs-left">{{ props.index + 1 }}</td>
+        <td class="text-xs-left">{{ ToTimeString(props.item) }}</td>
+        <td class="justify-center layout px-0">
+          <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+          <v-icon small @click="deleteItem(props.item)">delete</v-icon>
+        </td>
+      </template>
+      <template v-slot:no-data>
+        <v-alert style="height: 10px" :value="true" color="info" icon="warning">Solve some puzzles</v-alert>
+      </template>
+    </v-data-table>
     <div style="margin: 4px;">Avarage {{ ToTimeString(average) }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { Stopwatch } from "ts-stopwatch";
-import moment from "moment";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Stopwatch } from 'ts-stopwatch';
+import moment from 'moment';
+
+class Header {
+  public text: string = '';
+  public sortable: boolean = false;
+}
 
 @Component
 export default class SessionComponent extends Vue {
-  @Prop({ default: [] }) times!: Array<number>;
+  @Prop({ default: [] }) public times!: number[];
+
+  public headers: Header[] = [
+    { text: 'Number', sortable: false },
+    { text: 'Time', sortable: false },
+    { text: 'Actions', sortable: false },
+  ];
 
   get average() {
     let all: number = 0;
-    if (this.times.length === 0) return 0;
+    if (this.times.length === 0) { return 0; }
     for (const time of this.times) {
       all += time;
     }
@@ -54,9 +53,9 @@ export default class SessionComponent extends Vue {
     return all / this.times.length;
   }
 
-  ToTimeString(time: number) {
+  public ToTimeString(time: number) {
     const date = moment(new Date(time));
-    return date.format("ss:SSS");
+    return date.format('ss:SSS');
   }
 }
 </script>
