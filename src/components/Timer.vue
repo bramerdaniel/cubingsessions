@@ -18,11 +18,11 @@ export default class Timer extends Vue {
 
   get timeString() {
     const date = moment(new Date(this.time));
-    const minFormat = (date.minutes() > 0) ? "mm:" : "";
+    const minFormat = (date.minutes() > 0) ? "m:" : "";
     if (this.timerIsRunning) {
-      return date.format(minFormat + "ss:S");
+      return date.format(minFormat + "s.S");
     }
-    return date.format(minFormat + "ss:SSS");
+    return date.format(minFormat + "ss.SSS");
   }
 
   protected stopWatch: Stopwatch = new Stopwatch();
