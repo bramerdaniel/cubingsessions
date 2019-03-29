@@ -8,7 +8,7 @@
           <td style="width: 70%">Time</td>
         </tr>
       </thead>
-      <tbody> 
+      <tbody>
         <template v-if="times.length === 0">
           <tr>
             <td class="empty" colspan="3">No times to display</td>
@@ -16,13 +16,15 @@
         </template>
         <template v-else>
           <tr v-for="(time, index) in times" :key="time">
-            <td>{{index + 1}}</td>
-            <td>{{ToTimeString(time)}}</td>
+            <td>{{ index + 1 }}</td>
+            <td>{{ ToTimeString(time) }}</td>
           </tr>
         </template>
       </tbody>
     </table>
-    <a @click="times.splice(0, times.length)"  href=""  tabIndex="-1">Clear times</a>
+    <a @click="times.splice(0, times.length)" href="" tabIndex="-1">
+      Clear times
+    </a>
     <div style="margin: 4px;">Avarage {{ ToTimeString(average) }}</div>
   </div>
 </template>

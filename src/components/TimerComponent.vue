@@ -9,7 +9,7 @@ import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { Stopwatch } from "ts-stopwatch";
 import moment from "moment";
 
-const PreparingTimeput : number =  500;
+const PreparingTimeput: number = 500;
 
 enum TimerStates {
   Ready = "Ready",
@@ -31,7 +31,9 @@ export default class TimerComponent extends Vue {
   get timeFormat() {
     const date = new Date(this.time);
     const minFormat = date.getMinutes() > 0 ? "m:" : "";
-    return minFormat + this.timerState === TimerStates.Runing ? "s.S" : "ss.SSS";
+    return minFormat + this.timerState === TimerStates.Runing
+      ? "s.S"
+      : "ss.SSS";
   }
 
   get timeString() {
@@ -41,7 +43,7 @@ export default class TimerComponent extends Vue {
   get getClass() {
     switch (this.timerState) {
       case TimerStates.Preparing:
-        return "preparing"; 
+        return "preparing";
       case TimerStates.PreparingCompleted:
         return "preparingCompleted";
       case TimerStates.Runing:
@@ -81,7 +83,10 @@ export default class TimerComponent extends Vue {
     } else if (this.timerState === TimerStates.Ready) {
       this.time = 0;
       this.setState(TimerStates.Preparing);
-      this.completePreparingInterval = setTimeout(this.completePreparing, PreparingTimeput);
+      this.completePreparingInterval = setTimeout(
+        this.completePreparing,
+        PreparingTimeput
+      );
     }
   }
 
@@ -117,7 +122,6 @@ export default class TimerComponent extends Vue {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .preparing {
   color: red;

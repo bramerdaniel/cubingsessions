@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <h1>Cubing sessions timer</h1>
-    <timer-component @time-available="onTimeAvailable"/>
-    <SessionComponent class="session" :times="times"/>
+    <timer-component @time-available="onTimeAvailable" />
+    <SessionComponent class="session" :times="times" />
   </div>
 </template>
 
@@ -26,11 +26,10 @@ export default class Home extends Vue {
 
   onTimeAvailable(data: number): void {
     console.log("Got time " + data);
-     this.times.push(data);
+    this.times.push(data);
   }
 }
 </script>
-
 
 <style scoped>
 #app {
@@ -39,8 +38,7 @@ export default class Home extends Vue {
   justify-content: center;
 }
 .session {
-  margin: auto 44% ;
+  margin: auto 44%;
   width: 20vw;
-  
 }
 </style>
