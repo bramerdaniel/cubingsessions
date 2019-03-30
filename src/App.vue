@@ -111,7 +111,7 @@ export default class App extends Vue {
   }
 
   public onTimeAvailable(data: ScrambleTime): void {
-    this.times.push(data);
+    this.times.unshift(data);
   }
 }
 

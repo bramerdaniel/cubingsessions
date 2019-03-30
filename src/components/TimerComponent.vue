@@ -10,7 +10,7 @@ import { Stopwatch } from 'ts-stopwatch';
 import { ScrambleTime } from '../ScrambleTime';
 import moment from 'moment';
 
-const PreparingTimeout: number = 300;
+const PreparingTimeout: number = 400;
 
 enum TimerStates {
   Ready = 'Ready',
@@ -27,6 +27,9 @@ export default class TimerComponent extends Vue {
 
   get timeFormat() {
     const date = new Date(this.time);
+    if (this.timerState === TimerStates.Preparing || this.timerState === TimerStates.PreparingCompleted)
+      return 's.S';
+
     const minFormat = date.getMinutes() > 0 ? 'm:' : '';
     return minFormat + this.timerState === TimerStates.Runing
       ? 's.S'

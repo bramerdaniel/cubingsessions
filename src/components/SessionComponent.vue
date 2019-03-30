@@ -10,7 +10,7 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 sm6 md4>
-                <v-text-field v-model="timeToEdit" label="adjust the time (do not cheat ;)"/>
+                <v-text-field v-model="timeToEdit" label="adjust the time"/>
               </v-flex>
             </v-layout>
           </v-container>
@@ -26,7 +26,7 @@
 
     <v-data-table :headers="headers" :items="times" hide-actions>
       <template v-slot:items="props" style="color: red">
-        <td class="text-xs-left">{{ props.index + 1 }}</td>
+        <td class="text-xs-left">{{ times.length - props.index }}</td>
         <td class="text-xs-left">{{ ToTimeString(props.item.value) }}</td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editTime(props.index)">edit</v-icon>
@@ -66,22 +66,21 @@ export default class SessionComponent extends Vue {
   ];
 
   get average() {
-    let all: number = 0;
     if (this.times.length === 0) {
       return 0;
     }
-    for (const time of this.times) {
-      all += time.value;
-    }
 
-    if (this.times.length > 2) {
-      const values = this.times.map(x => x.value);
+    let length = this.times.length;
+    let values = this.times.map(x => x.value);
+    let all = values.reduce((a, b) => a + b, 0);
+
+    if (this.times.length >= 5) {
       all -= Math.min(...values);
       all -= Math.max(...values);
-      return all / (this.times.length - 2);
+      length -= 2;
     }
 
-    return all / this.times.length;
+    return all / length;
   }
 
   public editTime(index: number): void {
