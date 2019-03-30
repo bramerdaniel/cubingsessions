@@ -10,7 +10,7 @@ import { Stopwatch } from 'ts-stopwatch';
 import { ScrambleTime } from '../ScrambleTime';
 import moment from 'moment';
 
-const PreparingTimeput: number = 500;
+const PreparingTimeout: number = 300;
 
 enum TimerStates {
   Ready = 'Ready',
@@ -84,7 +84,7 @@ export default class TimerComponent extends Vue {
       this.setState(TimerStates.Preparing);
       this.completePreparingInterval = setTimeout(
         this.completePreparing,
-        PreparingTimeput,
+        PreparingTimeout,
       );
     }
   }
@@ -99,7 +99,7 @@ export default class TimerComponent extends Vue {
 
   public startTimer(): void {
     this.setState(TimerStates.Runing);
-    this.stopWatch.start();
+    this.stopWatch.start(true);
     this.interval = setInterval(this.updateTime, 100);
   }
 

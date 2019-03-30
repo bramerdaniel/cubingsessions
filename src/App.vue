@@ -20,7 +20,7 @@
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Times ans statistic</v-list-tile-title>
+            <v-list-tile-title>Times and statistic</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click.stop="clearTimes">
@@ -95,6 +95,7 @@ import { ScrambleTime } from "@/ScrambleTime";
     SessionComponent
   }
 })
+
 export default class App extends Vue {
   public times: ScrambleTime[] = [];
   public drawer: boolean = true;
@@ -105,7 +106,8 @@ export default class App extends Vue {
   // @Prop({ default: "" }) source!: string;
 
   public clearTimes() {
-    this.times.splice(0);
+    if (confirm("Are you sure you want to delete all times?"))
+      this.times.splice(0);
   }
 
   public onTimeAvailable(data: ScrambleTime): void {

@@ -10,7 +10,7 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 sm6 md4>
-                <v-text-field v-model="timeToEdit" label="adjust the time"/>
+                <v-text-field v-model="timeToEdit" label="adjust the time (do not cheat ;)"/>
               </v-flex>
             </v-layout>
           </v-container>
@@ -37,7 +37,7 @@
         <v-alert style="height: 10px" :value="true" color="info" icon="warning">Solve some puzzles</v-alert>
       </template>
     </v-data-table>
-    <div style="margin: 4px;">Avarage {{ ToTimeString(average) }}</div>
+    <div style="margin: 4px;">Average {{ ToTimeString(average) }}</div>
   </div>
 </template>
 
@@ -95,16 +95,17 @@ export default class SessionComponent extends Vue {
 
   public ToTimeString(time: number) {
     const date = moment(new Date(time));
-    return date.format("ss:SSS");
+    return date.format("mm:ss.SSS");
   }
 
   public deleteTime(index: number) {
-    if (confirm("Are you sure you want to delete this item?"))
+    if (confirm("Are you sure you want to delete this time?"))
       this.times.splice(index, 1);
   }
 
   public saveChanges() {
-    const time = new ScrambleTime(this.timeToEdit);
+    const time = new ScrambleTime(this.timeToEdit - new Date(0).valueOf());
+    console.log("edited time: " + time.value);
     this.times.splice(this.indexToEdit, 1, time);
     this.dialog = false;
   }
