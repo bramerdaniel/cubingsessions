@@ -102,7 +102,7 @@ export default class TimerComponent extends Vue {
     } else if (this.timerState === TimerStates.Ready) {
       this.time = 0;
       this.setState(TimerStates.Preparing);
-      this.completePreparingInterval = setTimeout(
+      this.completePreparingInterval = window.setTimeout(
         this.completePreparing,
         PreparingTimeout,
       );
@@ -120,7 +120,7 @@ export default class TimerComponent extends Vue {
   public startTimer(): void {
     this.setState(TimerStates.Runing);
     this.stopWatch.start(true);
-    this.interval = setInterval(this.updateTime, 100);
+    this.interval = window.setInterval(this.updateTime, 100);
   }
 
   public stopTimer(): void {
