@@ -9,6 +9,7 @@ import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 import { Stopwatch } from 'ts-stopwatch';
 import { ScrambleTime } from '../ScrambleTime';
 import moment from 'moment';
+import * as signalR from "@aspnet/signalr";
 
 const PreparingTimeout: number = 400;
 
@@ -61,6 +62,22 @@ export default class TimerComponent extends Vue {
   public created() {
     window.addEventListener('keyup', this.onKeyUp);
     window.addEventListener('keydown', this.onKeyDown);
+
+    // ---------
+    // Connect to our hub
+    // ---------
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("https://cubingsessionsapi.azurewebsites.net/notifications/")
+      .configureLogging(signalR.LogLevel.Trace)
+      .build();
+
+    connection.start().catch(function(err) {
+      return console.error(err.toSting());
+    });
+
+    connection.on("Bla", function(id: number) {
+      console.log("Bla " + id);
+    });
   }
 
   public onKeyUp(event: KeyboardEvent): void {
